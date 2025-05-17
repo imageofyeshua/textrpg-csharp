@@ -1,24 +1,43 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Channels;
 using System.Threading.Tasks;
+using TextRPG.States;
 
 namespace TextRPG
 {
     public class Game
     {
         // variables
-        bool end;
+        private bool end;
+        public bool End
+        {
+            get { return end; }
+            set { end = value; }
+        }
+
+        private Stack<State> states;
 
         // private functions
         private void InitVariables()
         {
-            end = false;
+            this.end = false;
+        }
+
+        private void InitStates()
+        {
+            this.states = new Stack<State>();
+            // Console.WriteLine(this.states.GetHashCode());
+
+            // push the first state
+            this.states.Push(new State(this.states));
         }
 
         public Game()
         {
             this.InitVariables();
+            this.InitStates();
             Console.WriteLine("Game Class");
         }
 
